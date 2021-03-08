@@ -6,6 +6,7 @@ require './lib/JSONReader.php';
 
 // Model
 // e' la parte che gestisce i dati dell'applicazione non per forza dati statici.
+$taskList = JSONReader('./dataset/TaskList.json');
 
 // controller è la parte che si occupa di gestire le due parti cioè la vista e il model
 // prendo dei dati, una volta che abbiamo questi dati, come verranno passati alla vista? con quale
@@ -14,7 +15,7 @@ require './lib/JSONReader.php';
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
 
-$taskList = JSONReader('./dataset/TaskList.json');
+$searchText = isset($_GET['searchText']) ? trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING)) : $searchText = "";
 
 
 ?>
@@ -39,29 +40,27 @@ $taskList = JSONReader('./dataset/TaskList.json');
 </head>
 
 <body>
-    <form action="" method="">
+    <form action="./index.php">
 
-        <input type="text" name="searchText">
-
+        <input type="text" value="<?= $searchText ?>" name="searchText">
         <button type="submit">Cerca</button>
+    </form>
 
-
-        <ul>
-            <?php foreach ($taskList as $task) {
-                $status = $task['status'];
-                $taskName = $task['taskName'];
-            ?>
-                <li class="tastklist-item tasklist-item-<?= $status ?>">
-                    <?= $taskname ?>
-                    <b><?= $status ?></b>
-                </li>
-            <?php } ?>
-            <!-- <li class="tasklist-item tasklist-item-todo">formaggio - <b>to do</b></li>
+    <ul>
+        <?php
+        foreach ($taskList as $task) {
+            $status = $task['status'];
+            $taskName = $task['taskName'];
+        ?>
+            <li class="tastklist-item tasklist-item-<?= $status ?>">
+                <?= $taskname ?>
+                <b><?= $status ?></b>
+            </li>
+        <?php } ?>
+        <!-- <li class="tasklist-item tasklist-item-todo">formaggio - <b>to do</b></li>
                 <li class="tasklist-item tasklist-item-done">uova - <b>done</b></li> -->
 
-        </ul>
-
-    </form>
+    </ul>
 </body>
 
 </html>
