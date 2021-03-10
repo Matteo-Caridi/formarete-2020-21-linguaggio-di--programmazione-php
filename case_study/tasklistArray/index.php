@@ -14,11 +14,16 @@ $taskList = JSONReader('./dataset/TaskList.json');
 // il controller è quello che capisce che è stato premuto il + ...
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
-if (isset($_GET['searchText'])&& trim($_GET['searchText'])!=='') {
+if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '') || (isset($_GET['status']))) {
     $searchText = trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING));
     $taskList = array_filter($taskList, searchText($searchText));
+    $status = $_GET['status'];
+    $taskList = array_filter($taskList, searchStatus($status));
 } else {
-    $searchText = "";
+    // if (isset($_GET['status']) !== '') {
+    //     
+    // }
+    $searchText = '';
 }
 ?>
 
@@ -46,6 +51,20 @@ if (isset($_GET['searchText'])&& trim($_GET['searchText'])!=='') {
 
         <input type="text" value="<?= $searchText ?>" name="searchText">
         <button type="submit">Cerca</button>
+        <div id="status">
+
+            <input type="radio" name="status" value="progress" id="progress">
+            <label for="progress">Progress</label>
+
+            <input type="radio" name="status" value="done" id="done">
+            <label for="done">Done</label>
+
+            <input type="radio" name="status" value="todo" id="todo">
+            <label for="todo">To do</label>
+
+            <input type="radio" name="status" value="all" id="all">
+            <label for="all">Tutto</label>
+        </div>
     </form>
 
     <ul>
@@ -60,7 +79,9 @@ if (isset($_GET['searchText'])&& trim($_GET['searchText'])!=='') {
             </li>
         <?php } ?>
     </ul>
-    
+
+
+
 </body>
 
 </html>

@@ -20,9 +20,23 @@ function searchText($searchText)
     // della funzione anonima devo usare 'use'
 
     return function ($taskItem) use ($searchText) {
-  
+
         $result = strpos($taskItem['taskName'], $searchText) !== false;
         return $result;
- 
+    };
+}
+
+/**
+ * 
+ * @var string $status è la stringa che corrisponde allo status da cercare
+ * (progress|done|todo)
+ * @return callback La funzione che verrà utilizzata da array_filter 
+ */
+
+function searchStatus(string $status)
+{
+    return function ($taskItem) use ($status) {
+        $result = strpos($taskItem['status'], $status) !== false;
+        return $result;
     };
 }
