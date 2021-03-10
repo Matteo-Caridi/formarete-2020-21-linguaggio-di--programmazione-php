@@ -12,7 +12,6 @@
 
 function searchText($searchText)
 {
-
     // la variabile $searchText è una variabile locale
     // per la funzione esterna
 
@@ -21,15 +20,9 @@ function searchText($searchText)
     // della funzione anonima devo usare 'use'
 
     return function ($taskItem) use ($searchText) {
-
-        // print_r($taskItem['taskName']);
-        // echo "sto cercando $searchText";
-
+  
         $result = strpos($taskItem['taskName'], $searchText) !== false;
         return $result;
-        // var_dump($result);
-
-        // print_r($searchText);
-        // print_r($taskItem);
+ 
     };
 }
