@@ -14,7 +14,7 @@ $taskList = JSONReader('./dataset/TaskList.json');
 // il controller è quello che capisce che è stato premuto il + ...
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
-if (isset($_GET['searchText'])) {
+if (isset($_GET['searchText'])&& trim($_GET['searchText'])!=='') {
     $searchText = trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING));
     $taskList = array_filter($taskList, searchText($searchText));
 } else {
@@ -59,8 +59,8 @@ if (isset($_GET['searchText'])) {
                 <b><?= $status ?></b>
             </li>
         <?php } ?>
-
     </ul>
+    
 </body>
 
 </html>
