@@ -3,7 +3,7 @@
 // carichiamo le dipendenze (sono quello che serve per elaborare lo script finale)
 
 require './lib/JSONReader.php';
-
+require './lib/searchFunctions.php';
 // Model
 // e' la parte che gestisce i dati dell'applicazione non per forza dati statici.
 $taskList = JSONReader('./dataset/TaskList.json');
@@ -14,10 +14,12 @@ $taskList = JSONReader('./dataset/TaskList.json');
 // il controller è quello che capisce che è stato premuto il + ...
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
-
-$searchText = isset($_GET['searchText']) ? trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING)) : $searchText = "";
-
-
+if (isset($_GET['searchText'])) {
+    $searchText = trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING));
+    $taskList = array_filter($taskList, searchText($searchText));
+} else {
+    $searchText = "";
+}
 ?>
 
 
@@ -53,12 +55,10 @@ $searchText = isset($_GET['searchText']) ? trim(filter_var($_GET['searchText'], 
             $taskName = $task['taskName'];
         ?>
             <li class="tastklist-item tasklist-item-<?= $status ?>">
-                <?= $taskname ?>
+                <?= $taskName ?>
                 <b><?= $status ?></b>
             </li>
         <?php } ?>
-        <!-- <li class="tasklist-item tasklist-item-todo">formaggio - <b>to do</b></li>
-                <li class="tasklist-item tasklist-item-done">uova - <b>done</b></li> -->
 
     </ul>
 </body>
