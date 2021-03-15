@@ -50,7 +50,7 @@ if (isset($_GET['searchText']) && trim($_GET['searchText']) !== '') {
     <form action="./index.php">
 
         <input type="text" value="<?php if (isset($searchText)){echo $searchText;}else{echo "";}; ?>" name="searchText" placeholder="Inserire cosa cercare">
-        <input type="text" value="" name="expireDate" placeholder="Inserire data scadenza">
+        <input type="text" value="<?php if (isset($expire)){echo $expire;}else{echo "";}; ?>" name="expireDate" placeholder="Inserire data scadenza">
         <button type="submit">Cerca</button>
         <div id="status">
 
