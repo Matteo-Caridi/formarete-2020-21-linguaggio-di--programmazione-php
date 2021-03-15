@@ -33,14 +33,20 @@ function searchText($searchText)
  * @return callback La funzione che verrà utilizzata da array_filter 
  */
 
-function searchStatus(string $status)
+function searchStatus($status)
 {
     return function ($taskItem) use ($status) {
-        $result = strpos($taskItem['status'], $status) !== false;
-        return $result;
+        if ($status !== 'all') {
+            $result = (strpos($taskItem['status'], $status)) !== false;
+            return $result;
+        } else {
+            return $taskItem;
+        }
     };
-}function searchDate(string $expireDate){
-    return function($taskItem) use ($expireDate){
-        return strpos($taskItem, $expireDate)!==false;
+}
+
+function searchDate($expire){
+    return function ($taskItem) use($expire){
+        return (strpos($taskItem['expirationDate'],$expire)!== false);
     };
 }
