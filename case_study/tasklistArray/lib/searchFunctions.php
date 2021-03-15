@@ -39,9 +39,7 @@ function searchStatus(string $status)
         $result = strpos($taskItem['status'], $status) !== false;
         return $result;
     };
-}
-
-function searchDate(string $expireDate){
+}function searchDate(string $expireDate){
     return function($taskItem) use ($expireDate){
         return strpos($taskItem, $expireDate)!==false;
     };
