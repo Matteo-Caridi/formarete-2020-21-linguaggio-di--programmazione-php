@@ -53,16 +53,16 @@ if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '')) {
         <button type="submit">Cerca</button>
         <div id="status">
 
-            <input type="radio" name="status" value="progress" id="progress">
+            <input type="radio" name="status" value="progress" id="progress" <?php if(isset($_GET['status']) && $_GET['status'] =='progress'){echo "checked";};?>>
             <label for="progress">Progress</label>
 
-            <input type="radio" name="status" value="done" id="done">
+            <input type="radio" name="status" value="done" id="done" <?php if(isset($_GET['status']) && $_GET['status'] =='done'){echo "checked";};?>>
             <label for="done">Done</label>
 
-            <input type="radio" name="status" value="todo" id="todo">
+            <input type="radio" name="status" value="todo" id="todo" <?php if(isset($_GET['status']) && $_GET['status'] =='todo'){echo "checked";};?>>
             <label for="todo">To do</label>
 
-            <input type="radio" name="status" value="all" id="all">
+            <input type="radio" name="status" value="all" id="all" <?php if(isset($_GET['status']) && $_GET['status'] =='all'){echo "checked";};?>>
             <label for="all">Tutto</label>
         </div>
     </form>
