@@ -14,16 +14,17 @@ $taskList = JSONReader('./dataset/TaskList.json');
 // il controller è quello che capisce che è stato premuto il + ...
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
-if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '') || (isset($_GET['status']))) {
+if (isset($_GET['searchText']) && trim($_GET['searchText']) !== '') {
     $searchText = trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING));
     $taskList = array_filter($taskList, searchText($searchText));
+    $_GET['searchText'] = '';
+} elseif (isset($_GET['status']) !== '') {
     $status = $_GET['status'];
     $taskList = array_filter($taskList, searchStatus($status));
-} else {
-    // if (isset($_GET['status']) !== '') {
-    //     
-    // }
-    $searchText = '';
+} elseif (isset($_GET['expireDate']) && (isset($_GET['expireDate']) !== '')) {
+    $expire = $_GET['expireDate'];
+    $taskList = array_filter($taskList, searchDate($expire));
+    $_GET['expireDate'] = '';
 }
 ?>
 
@@ -49,7 +50,8 @@ if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '') || (isset($
 <body>
     <form action="./index.php">
 
-        <input type="text" value="<?= $searchText ?>" name="searchText">
+        <input type="text" value="" name="searchText" placeholder="Inserire cosa cercare">
+        <input type="text" value="" name="expireDate" placeholder="Inserire data scadenza">
         <button type="submit">Cerca</button>
         <div id="status">
 
@@ -68,14 +70,19 @@ if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '') || (isset($
     </form>
 
     <ul>
-        <?php
-        foreach ($taskList as $task) {
-            $status = $task['status'];
+        <?php foreach ($taskList as $task) {
+
             $taskName = $task['taskName'];
+            $status = $task['status'];
+            $expireDate = $task['expirationDate'];
         ?>
-            <li class="tastklist-item tasklist-item-<?= $status ?>">
+            <li class="tasklist-item tasklist-item-<?= $status ?>">
+
                 <?= $taskName ?>
-                <b><?= $status ?></b>
+                <?= '|' ?>
+                <?= $status ?>
+                <?= '|' ?>
+                <?= $expireDate ?>
             </li>
         <?php } ?>
     </ul>
