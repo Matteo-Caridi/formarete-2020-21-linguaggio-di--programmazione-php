@@ -33,7 +33,7 @@ function searchText($searchText)
  * @return callback La funzione che verrà utilizzata da array_filter 
  */
 
-function searchStatus($status)
+function searchStatus(string $status)
 {
     return function ($taskItem) use ($status) {
         if ($status !== 'all') {

@@ -14,13 +14,14 @@ $taskList = JSONReader('./dataset/TaskList.json');
 // il controller è quello che capisce che è stato premuto il + ...
 // il controller passa i dati filtrati alla vista (view)
 // $data = JSONReader() 
-if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '')) {
+if (isset($_GET['searchText']) && trim($_GET['searchText']) !== '') {
     $searchText = trim(filter_var($_GET['searchText'], FILTER_SANITIZE_STRING));
     $taskList = array_filter($taskList, searchText($searchText));
-} elseif (isset($_GET['status']) && (isset($_GET['status']) !== '')) {
+    $_GET['status']='';
+} elseif ((isset($_GET['status'])) && (isset($_GET['status']) !== '')) {
     $status = $_GET['status'];
     $taskList = array_filter($taskList, searchStatus($status));
-} elseif (isset($_GET['expireDate']) && (trim($_GET['expireDate']) !== '')) {
+} elseif (isset($_GET['expireDate']) && trim($_GET['expireDate']) !== '') {
     $expire = $_GET['expireDate'];
     $taskList = array_filter($taskList, searchDate($expire));
 }
@@ -48,21 +49,29 @@ if (isset($_GET['searchText']) && (trim($_GET['searchText']) !== '')) {
 <body>
     <form action="./index.php">
 
-        <input type="text" value="" name="searchText" placeholder="Inserire cosa cercare">
+        <input type="text" value="<?php if (isset($searchText)){echo $searchText;}else{echo "";}; ?>" name="searchText" placeholder="Inserire cosa cercare">
         <input type="text" value="" name="expireDate" placeholder="Inserire data scadenza">
         <button type="submit">Cerca</button>
         <div id="status">
 
-            <input type="radio" name="status" value="progress" id="progress" <?php if(isset($_GET['status']) && $_GET['status'] =='progress'){echo "checked";};?>>
+            <input type="radio" name="status" value="progress" id="progress" <?php if (isset($_GET['status']) && $_GET['status'] == 'progress') {
+                                                                                    echo "checked";
+                                                                                }; ?>>
             <label for="progress">Progress</label>
 
-            <input type="radio" name="status" value="done" id="done" <?php if(isset($_GET['status']) && $_GET['status'] =='done'){echo "checked";};?>>
+            <input type="radio" name="status" value="done" id="done" <?php if (isset($_GET['status']) && $_GET['status'] == 'done') {
+                                                                            echo "checked";
+                                                                        }; ?>>
             <label for="done">Done</label>
 
-            <input type="radio" name="status" value="todo" id="todo" <?php if(isset($_GET['status']) && $_GET['status'] =='todo'){echo "checked";};?>>
+            <input type="radio" name="status" value="todo" id="todo" <?php if (isset($_GET['status']) && $_GET['status'] == 'todo') {
+                                                                            echo "checked";
+                                                                        }; ?>>
             <label for="todo">To do</label>
 
-            <input type="radio" name="status" value="all" id="all" <?php if(isset($_GET['status']) && $_GET['status'] =='all'){echo "checked";};?>>
+            <input type="radio" name="status" value="all" id="all" <?php if (isset($_GET['status']) && $_GET['status'] == 'all') {
+                                                                        echo "checked";
+                                                                    }; ?>>
             <label for="all">Tutto</label>
         </div>
     </form>
