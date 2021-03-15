@@ -40,3 +40,9 @@ function searchStatus(string $status)
         return $result;
     };
 }
+
+function searchDate(string $expireDate){
+    return function($taskItem) use ($expireDate){
+        return strpos($taskItem, $expireDate)!==false;
+    };
+}
