@@ -40,7 +40,7 @@ function searchStatus(string $status)
             $result = (strpos($taskItem['status'], $status)) !== false;
             return $result;
         } else {
-            return $taskItem;
+            return true;
         }
     };
 }
